@@ -1,5 +1,5 @@
 /**
- * ContentForge AI — Automated Backend Server
+ * CopyMint AI — Automated Backend Server
  */
 
 const express = require('express');
@@ -54,7 +54,7 @@ function getOneTimePrice(type) {
 
 // ===== HEALTH CHECK =====
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', service: 'ContentForge AI', timestamp: new Date().toISOString() });
+    res.json({ status: 'ok', service: 'CopyMint AI', timestamp: new Date().toISOString() });
 });
 
 // ===== SUBSCRIPTION CHECKOUT =====
@@ -111,7 +111,7 @@ app.post('/api/order', async (req, res) => {
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: `ContentForge AI — ${contentLabels[content_type] || content_type}`,
+                        name: `CopyMint AI — ${contentLabels[content_type] || content_type}`,
                         description: `AI-generated ${content_type} content for ${company || name}`
                     },
                     unit_amount: getOneTimePrice(content_type)
@@ -172,7 +172,7 @@ async function generateContent(order) {
         messages: [
             {
                 role: 'system',
-                content: `You are an expert content writer for ContentForge AI. Write professional, engaging, SEO-optimized content. Tone: ${order.tone || 'professional and engaging'}. Never use filler — every sentence must add value.`
+                content: `You are an expert content writer for CopyMint AI. Write professional, engaging, SEO-optimized content. Tone: ${order.tone || 'professional and engaging'}. Never use filler — every sentence must add value.`
             },
             { role: 'user', content: prompt }
         ],
@@ -200,7 +200,7 @@ function getContentPrompt(order) {
 // ===== EMAIL DELIVERY =====
 async function deliverContent(order) {
     await transporter.sendMail({
-        from: `"ContentForge AI" <${process.env.EMAIL_USER}>`,
+        from: `"CopyMint AI" <${process.env.EMAIL_USER}>`,
         to: order.email,
         subject: `✅ Your Content is Ready — Order ${order.id}`,
         html: `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
@@ -215,7 +215,7 @@ async function deliverContent(order) {
   <div style="background:#0A0A0F;border:1px solid #1F1F2E;border-radius:12px;padding:24px;margin:24px 0;white-space:pre-wrap;line-height:1.7;color:#F0F0F5;font-size:14px;">${order.content}</div>
   <p style="color:#9CA3AF;">Need revisions? Reply to this email and we'll update within 24 hours.</p>
   <div style="margin-top:32px;padding-top:24px;border-top:1px solid #1F1F2E;text-align:center;color:#6B7280;font-size:12px;">
-    <p>ContentForge AI — AI-Powered Content, Delivered Instantly</p>
+    <p>CopyMint AI — AI-Powered Copy, Delivered Instantly</p>
   </div>
 </div></body></html>`
     });
@@ -223,7 +223,7 @@ async function deliverContent(order) {
 
 async function notifyAdmin(order, error) {
     await transporter.sendMail({
-        from: `"ContentForge AI System" <${process.env.EMAIL_USER}>`,
+        from: `"CopyMint AI System" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_USER,
         subject: `⚠️ Order Failed — ${order.id}`,
         text: `Order ${order.id} failed.\n\nCustomer: ${order.name} (${order.email})\nType: ${order.content_type}\nError: ${error.message}\n\nHandle manually.`
@@ -231,7 +231,7 @@ async function notifyAdmin(order, error) {
 }
 
 app.listen(PORT, () => {
-    console.log(`⚡ ContentForge AI server running on port ${PORT}`);
+    console.log(`⚡ CopyMint AI server running on port ${PORT}`);
 });
 
 module.exports = app;
